@@ -1,5 +1,6 @@
-import requests
+import urllib.request,json
 from .models import Article
+
 
 
 api_key = None
@@ -82,6 +83,7 @@ def process(news_list):
             top_news_results.append(news_object)
 
     return top_news_results
+    
 
 
 
