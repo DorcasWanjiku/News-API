@@ -23,37 +23,55 @@ def configure_requests(app):
 
 def get_top_news():
     get_top_news_url = top_news_url.format(api_key)
-    get_news_response = requests.get(get_top_news_url).json()
-    
-    if get_news_response["articles"]:
-        news_results_list = get_news_response["articles"]
-        top_news_results = process(news_results_list)
+    # import pdb; pdb.set_trace()
+
+    # get_news_response = requests.get(get_top_news_url).json()
+    with urllib.request.urlopen(get_top_news_url) as url:
+        get_news_data = url.read()
+        get_news_response = json.loads(get_news_data)
+        top_news_results = None
+        
+        if get_news_response["articles"]:
+            news_results_list = get_news_response["articles"]
+            top_news_results = process(news_results_list)
 
     return top_news_results
 
 def get_top_news_by_source(source):
     get_top_news_by_source_url = top_news_by_source_url.format(source, api_key)
-    get_top_news_by_source_response = requests.get(get_top_news_by_source_url).json()
+    # get_top_news_by_source_response = requests.get(get_top_news_by_source_url).json()
+    with urllib.request.urlopen(get_top_news_by_source_url) as url:
+        get_news_data = url.read()
+        get_news_by_source_response = json.loads(get_news_data)
+        top_news_by_source_results = None
 
-    if get_top_news_by_source_response["articles"]:
-        news_source_results_list = get_top_news_by_source_response["articles"]
-        top_news_by_source_results = process(news_source_results_list)
+        if get_top_news_by_source_response["articles"]:
+            news_source_results_list = get_top_news_by_source_response["articles"]
+            top_news_by_source_results = process(news_source_results_list)
 
     return top_news_by_source_results
 
 def get_news_by_category(category):
     get_news_by_category_url = category_news_url.format(category, api_key)
-    category_response = requests.get(get_news_by_category_url).json()
+    # category_response = requests.get(get_news_by_category_url).json() 
+    with urllib.request.urlopen(get_news_by_category_url) as url:
+        get_news_data = url.read()
+        category_response = json.loads(get_news_data)
+        category_results = None
 
-    if category_response["articles"]:
-        category_list = category_response["articles"]
-        category_results = process(category_list)
+        if category_response["articles"]:
+            category_list = category_response["articles"]
+            category_results = process(category_list)
 
     return category_results
 
 def get_sources():
-    get_news_sources_url = news_sources_url.format(api_key)
-    get_sources_response = requests.get(get_news_sources_url).json()
+    get_news_source_url = news_sources_url.format(api_key)
+    # get_sources_response = requests.get(get_news_sources_url).json()
+    with urllib.request.urlopen(get_news_source_url) as url:
+        get_news_data = url.read()
+        get_sources_response = json.loads(get_news_data)
+       
 
     return get_sources_response["sources"]
 
